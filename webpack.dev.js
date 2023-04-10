@@ -18,7 +18,7 @@ module.exports = (webpackConfigEnv, argv) => {
         process: 'process/browser',
       }),
       new EnvironmentPlugin({
-        BASE_URL:"https://api.sandbox.imalipay.com"
+        BASE_URL:"https://api.imalipay.com"
       }),
     ],
     devServer: {
