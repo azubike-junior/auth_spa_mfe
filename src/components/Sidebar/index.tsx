@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from "../../assets/log.svg";
+import logo from "../../assets/logo.svg";
 import Dropdown from '../Dropdown'
 import overview from '../../assets/overvw.svg'
 import customers from '../../assets/customrs.svg'
