@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: auth-mfe
+  name: auth-mfe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-mfe
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: auth-mfe
+    spec:
+      containers:
+      - image: 032840272187.dkr.ecr.us-east-2.amazonaws.com/frontend/react-node:v1
+        name: auth-mfe
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 80 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mfe
+  labels:
+    run: auth-mfe
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: auth-mfe
+  type: NodePort
