@@ -1,35 +1,24 @@
-# pull official base image
-FROM node:18.14-alpine3.16 as development
-
-# set working directory
-WORKDIR /usr/src/app
-
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
-
-COPY package*.json ./
-RUN npm install --force --silent --only=development
-RUN npm install react-scripts@3.4.1 -g --silent
-
-# add app
+# Use a Node 16 base image
+FROM node:latest as builder
+# Set the working directory to /app inside the container
+WORKDIR /app
+# Copy app files
 COPY . .
+# ==== BUILD =====
+# Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
+RUN yarn install
+# Build the app
+RUN yarn run build:webpack
 
-# start app
-RUN npm run dev
-
-FROM node:18.14.0 as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN npm install --only=production
-
-COPY . .
-
-RUN npm run prod
+# Bundle static assets with nginx
+FROM nginx:1.21.0-alpine as development
+ENV NODE_ENV development
+# Copy built assets from `builder` image
+COPY --from=builder /app/dist /usr/share/nginx/html
+# Add your nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Expose port
+EXPOSE 80
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
+# 
