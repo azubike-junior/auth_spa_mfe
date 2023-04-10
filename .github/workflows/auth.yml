@@ -80,7 +80,7 @@ jobs:
           [[ ! -z "$KUBECONFIG" ]] && echo "$KUBECONFIG" || echo "$HOME/.kube/config"
           
       - name: Update kube config
-        run: aws eks update-kubeconfig --name ${{ secrets.DEVELOPMENT_CLUSTER }} --region ${{ secrets.DEVELOPMENT_REGION }}
+        run: aws eks update-kubeconfig --name development --region eu-west-1
 
       - name: Deploy to EKS
         run: kubectl apply -f eks.yaml
