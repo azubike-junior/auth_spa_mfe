@@ -16,40 +16,40 @@ jobs:
           node-version: 16
       - run: yarn install
   
-dockerize:
-  needs: build
-  name: dockerized
-  runs-on: ubuntu-latest
-  steps:
-    - name: Kubectl tool installer
-      uses: Azure/setup-kubectl@v3
-      with:
-        version: "v1.24.0"
-      id: install
+  dockerize:
+    needs: build
+    name: dockerized
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v3
+        with:
+          version: "v1.24.0"
+        id: install
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: AKIAVUEC3CELQWUN7LVI
-        aws-secret-access-key: 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
-        aws-region: eu-west-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIAVUEC3CELQWUN7LVI
+          aws-secret-access-key: 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
+          aws-region: eu-west-1
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-    - name: check files
-      run: |
-        ls
+      - name: check files
+        run: |
+          ls
 
-    - uses: actions/checkout@v3
-    - name: Build the Docker image & push to ECR
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: auth_mfe
-        IMAGE_TAG: ${{github.sha}}
-      run: |
-        ls
-        DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        docker image ls
-        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+      - uses: actions/checkout@v3
+      - name: Build the Docker image & push to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: auth_mfe
+          IMAGE_TAG: ${{github.sha}}
+        run: |
+          ls
+          DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker image ls
+          docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
