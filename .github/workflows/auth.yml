@@ -44,3 +44,32 @@ jobs:
           DOCKER_BUILDKIT=1 docker build . --file Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker image ls
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+          
+  deployment:
+    needs: dockerize
+    name: deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.DEVELOPMENT_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.DEVELOPMENT_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.DEVELOPMENT_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: find kubecofig location
+        run: |
+          [[ ! -z "$KUBECONFIG" ]] && echo "$KUBECONFIG" || echo "$HOME/.kube/config"
+          
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name ${{ secrets.DEVELOPMENT_CLUSTER }} --region ${{ secrets.DEVELOPMENT_REGION }}
+
+      - name: Deploy to EKS
+        run: kubectl apply -f eks.yaml
