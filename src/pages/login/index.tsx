@@ -9,7 +9,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { loginUser } from '../../services/users/login'
 import { ILogin } from '../../types'
 import { redirect, useNavigate} from 'react-router-dom'
-import logo from "../../assets/log.svg"
+import logo from "../../assets/logo.svg"
 
 
 const Login = (props) => {
