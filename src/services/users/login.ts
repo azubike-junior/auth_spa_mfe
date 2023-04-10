@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { redirect, useNavigate } from 'react-router-dom';
 import { ILogin } from '../../types';
-import { http } from '../axios/http';
+import { axiosInstance, http } from '../axios/http';
 
 interface initState {
   error: any,
@@ -16,10 +16,14 @@ const initialState: initState = {
   data: ""
 }
 
-export const loginUser = createAsyncThunk("/users/login", async ({navigate, props,  ...rest}: ILogin, {rejectWithValue}) => {
-  
+export const loginUser = createAsyncThunk("/users/login", async ({ navigate, props, ...rest }: ILogin, { rejectWithValue }) => {
   try {
-    const rs = await axios.post(`https://api.imalipay.com/users/login`, rest)
+    // const rs = await axios.post(`https://api.imalipay.com/users/login`, rest)
+    const rs = await axiosInstance({
+      method: "POST",
+      url: "/users/login",
+      data: rest
+    })
     if (rs.data.statusCode === '0000') {
      
       localStorage.setItem('access_token', rs.data.data[0].access_token)

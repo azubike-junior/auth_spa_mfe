@@ -1,6 +1,11 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-axios.interceptors.request.use(async (config) => {
+export const axiosInstance = axios.create({
+    baseURL: process.env.BASE_URL,
+    timeout: 20000,
+});
+
+axiosInstance.interceptors.request.use(async (config) => {
   if (config.url?.includes('/login')) return config;
   if (config.url?.includes('/register')) return config;
 
@@ -17,7 +22,7 @@ axios.interceptors.request.use(async (config) => {
   }
 )
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -34,7 +39,7 @@ axios.interceptors.response.use(
   }
 );
 
-const http = axios
+const http = axiosInstance
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export { http };

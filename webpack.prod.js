@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
+const {EnvironmentPlugin, ProvidePlugin} = require("webpack")
+
 
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
@@ -11,6 +13,18 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
+    performance: {
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
+   },
+    plugins: [
+      new ProvidePlugin({
+        process: 'process/browser',
+      }),
+      new EnvironmentPlugin({
+        BASE_URL:"https://api.imalipay.com"
+      }),
+    ],
     devServer: {
       port: 8084,
     },
@@ -27,6 +41,3 @@ module.exports = (webpackConfigEnv, argv) => {
     // modify the webpack config however you'd like to by adding to this object
   });
 };
-
- // "dev": "webpack serve --env standalone",
-
