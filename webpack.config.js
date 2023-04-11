@@ -11,9 +11,6 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    devServer: {
-    contentBase: './dist',
-  },
     module: {
       rules: [
         {
