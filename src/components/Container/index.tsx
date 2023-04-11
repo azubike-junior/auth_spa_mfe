@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from '../Button'
 // import FilterBtn from "../FilterBtn";
-import { Select } from '@chakra-ui/react'
 import '../../index.css'
 
 interface ContainerProp {
