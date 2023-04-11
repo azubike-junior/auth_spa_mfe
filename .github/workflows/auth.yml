@@ -8,16 +8,10 @@ on:
 
 jobs:
 
-  dockerize:
-    name: dockerized
+  build:
+    name: build
     runs-on: ubuntu-latest
     steps:
-      - name: Kubectl tool installer
-        uses: Azure/setup-kubectl@v3
-        with:
-          version: "v1.24.0"
-        id: install
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -28,10 +22,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: check files
-        run: |
-          ls
 
       - uses: actions/checkout@v3
       - name: Build the Docker image & push to ECR
@@ -46,13 +36,10 @@ jobs:
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
           
   deployment:
-    needs: dockerize
+    needs: build
     name: deployment
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v2
-
       - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -60,24 +47,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.DEVELOPMENT_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.DEVELOPMENT_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        
-      - name: Install and configure kubectl
-        run: |
-          VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-          curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-              --progress-bar \
-              --location \
-              --remote-name
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-          echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-
-      - name: find kubecofig location
-        run: |
-          [[ ! -z "$KUBECONFIG" ]] && echo "$KUBECONFIG" || echo "$HOME/.kube/config"
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v3
+        with:
+          version: "v1.24.0"
+        id: install
           
       - name: Update kube config
         run: aws eks update-kubeconfig --name development --region eu-west-1
