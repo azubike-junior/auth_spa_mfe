@@ -46,6 +46,17 @@ jobs:
           aws-access-key-id: ${{ secrets.DEVELOPMENT_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.DEVELOPMENT_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.DEVELOPMENT_REGION }}
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        
+      - uses: actions/checkout@v3
+      - name: checkout code base 
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: auth_mfe
+          IMAGE_TAG: ${{github.sha}}
 
       - name: Kubectl tool installer
         uses: Azure/setup-kubectl@v3
