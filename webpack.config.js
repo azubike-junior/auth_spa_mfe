@@ -12,8 +12,8 @@ module.exports = (webpackConfigEnv, argv) => {
 
   return merge(defaultConfig, {
     devServer: {
-      port: 8084,
-    },
+    contentBase: './dist',
+  },
     module: {
       rules: [
         {

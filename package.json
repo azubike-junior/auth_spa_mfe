@@ -56,8 +56,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@chakra-ui/popover": "^2.1.9",
-    "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@reduxjs/toolkit": "^1.9.3",
