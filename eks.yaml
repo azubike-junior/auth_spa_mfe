@@ -47,16 +47,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: auth-mfe
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx-example
   rules:
   - host: "development.imalipay.com"
     http:
       paths:
-      - path: /auth-mfe
-        pathType: Prefix
+      - path: /Imalipay-auth.js
+        pathType: Exact
         backend:
           service:
             name: auth-mfe
