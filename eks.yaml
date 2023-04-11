@@ -38,4 +38,4 @@ spec:
     protocol: TCP
   selector:
     app: auth-mfe
-  type: NodePort
+  type: LoadBalancer
