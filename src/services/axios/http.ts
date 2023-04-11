@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: "https://api.imalipay.com",
     timeout: 20000,
 });
 
