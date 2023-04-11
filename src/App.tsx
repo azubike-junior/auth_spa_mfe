@@ -5,7 +5,7 @@ import Login from './pages/login'
 function App(props) {
 
   useEffect(() => {
-    console.log(">>>>>>>>process kini", process.env.BASE_URL)
+    // console.log(">>>>>>>>process kini", process.env.BASE_URL)
   }, [])
  
   return (
