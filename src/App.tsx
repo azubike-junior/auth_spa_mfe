@@ -3,10 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './pages/login'
 
 function App(props) {
-
-  useEffect(() => {
-    // console.log(">>>>>>>>process kini", process.env.BASE_URL)
-  }, [])
  
   return (
     <>
