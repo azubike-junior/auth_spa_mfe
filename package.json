@@ -6,7 +6,7 @@
     "prod": "webpack serve --env standalone  --config webpack.prod.js",
     "gen:tw": "npx tailwindcss build -i ./src/styles/start.css -o ./src/styles/final.css --watch",
     "build": "concurrently yarn:build:*",
-    "build:webpack": "webpack --mode=production ",
+    "build:webpack": "webpack --mode=production",
     "analyze": "webpack --mode=production --env analyze",
     "lint": "eslint src --ext js,ts,tsx",
     "format": "prettier --write .",
