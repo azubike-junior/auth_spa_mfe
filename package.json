@@ -78,6 +78,7 @@
     "react-router-dom": "^6.10.0",
     "react-spinners": "^0.13.8",
     "react-table": "^7.8.0",
+    "redux": "^4.2.1",
     "single-spa": "^5.9.3",
     "single-spa-react": "^5.0.1"
   },
