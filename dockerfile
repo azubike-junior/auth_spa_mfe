@@ -11,24 +11,20 @@ RUN yarn install
 RUN yarn run build:webpack
 RUN ls 
 
-EXPOSE 9000
-
-CMD yarn start
-
 # Bundle static assets with nginx
-#FROM nginx:1.21.0-alpine as development
+FROM nginx:1.21.0-alpine as development
 
 # Set working directory to nginx asset directory
-#WORKDIR /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
 
 # Remove default nginx static assets
 #RUN rm -rf ./*
 # Copy built assets from `builder` image
-#COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 # Add your nginx.conf
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port
-#EXPOSE 80
+EXPOSE 80
 # Start nginx
-#CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 # 
