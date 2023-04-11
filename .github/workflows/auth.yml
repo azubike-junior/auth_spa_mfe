@@ -3,7 +3,7 @@ name: Auth MFE Workflow
 on:
   push:
     branches:
-      - main
+#       - main
       - developer
 
 jobs:
