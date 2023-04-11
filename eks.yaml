@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: Always
         resources: {}
         ports:
-          - containerPort: 80 
+          - containerPort: 9000
 status: {}
 
 ---
@@ -36,6 +36,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
+    targetPort: 9000
   selector:
     app: auth-mfe
   type: LoadBalancer
