@@ -47,6 +47,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: auth-mfe
+  annotations:
+    kubernetes.io/ingress.class: alb
 spec:
   ingressClassName: nginx-example
   rules:
