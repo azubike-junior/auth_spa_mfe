@@ -18,7 +18,7 @@ FROM nginx:1.21.0-alpine as development
 WORKDIR /usr/share/nginx/html
 
 # Remove default nginx static assets
-#RUN rm -rf ./*
+RUN rm -rf ./*
 # Copy built assets from `builder` image
 COPY --from=builder /app/dist /usr/share/nginx/html
 # Add your nginx.conf
