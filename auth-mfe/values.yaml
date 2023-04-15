@@ -42,7 +42,7 @@ service:
 
 ingress:
   enabled: true
-  ingressClassName: nginx
+  className: nginx
   annotations: 
     nginx.org/mergeable-ingress-type: minion
   hosts:
