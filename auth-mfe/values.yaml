@@ -45,12 +45,14 @@ ingress:
   className: nginx
   annotations: 
     nginx.org/mergeable-ingress-type: minion
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/app-root: /auth-mfe
   hosts:
     - host: dashboard.development.imalipay.com
       paths: 
-      - path: "/auth-mfe(/|$)(.*)"
+      #- path: "/auth-mfe(/|$)(.*)"
+      - path: /
         pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
