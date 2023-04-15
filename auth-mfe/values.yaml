@@ -45,6 +45,7 @@ ingress:
   className: nginx
   annotations: 
     nginx.org/mergeable-ingress-type: minion
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   hosts:
     - host: dashboard.development.imalipay.com
