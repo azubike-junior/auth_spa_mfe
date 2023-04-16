@@ -5,11 +5,11 @@ import App from './App'
 import { store } from './services/store'
 import './styles/final.css'
 
-export default function Root(props) {
+export default function Root() {
   return (
     <div>
       <Provider store={store}>
-        <App props={props} />
+        <App />
       </Provider>
     </div>
   )
