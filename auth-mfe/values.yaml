@@ -45,9 +45,9 @@ ingress:
   className: nginx
   annotations: 
     nginx.org/mergeable-ingress-type: minion
-    #nginx.org/rewrites: "serviceName=auth-mfe rewrite=/"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.org/rewrites: "serviceName=auth-mfe rewrite=/"
+    #nginx.ingress.kubernetes.io/use-regex: "true"
+    #nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
     - host: dashboard.development.imalipay.com
       paths: 
