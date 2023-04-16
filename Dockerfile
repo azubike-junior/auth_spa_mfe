@@ -21,8 +21,10 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 # Copy built assets from `builder` image
 COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy health check endpoint
+COPY --from=builder /app/health.html /usr/share/nginx/html
 # Add your nginx.conf
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Expose port
 EXPOSE 80
 # Start nginx
